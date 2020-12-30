@@ -1,6 +1,18 @@
 # Compiled class file
 *.class
 
+# Gradle stuff
+/gradle
+/.gradle
+/build
+
+# Intellij
+.idea
+
+# Our stuff
+lib
+cache
+
 # Log file
 *.log
 

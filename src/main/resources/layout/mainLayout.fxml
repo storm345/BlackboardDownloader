@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="me.eddie.blackboardDownloader.gui.controller.StartMenuController">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+             <ScrollPane fitToHeight="true">
+                 <content>
+                     <VBox prefHeight="250.0" prefWidth="290.0">
+                         <Label text="Blackboard URL:">
+                             <VBox.margin>
+                                 <Insets bottom="2.0" />
+                             </VBox.margin></Label>
+                         <TextField fx:id="blackboardURL" text="https://bb.imperial.ac.uk">
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin></TextField>
+                         <Label text="Chrome Driver Location:">
+                             <VBox.margin>
+                                 <Insets bottom="2.0" />
+                             </VBox.margin></Label>
+                         <HBox>
+                            <TextField fx:id="chromeDriverLocation" text="lib/chromedriver.exe">
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin></TextField>
+                             <Button fx:id="pickChromeDriverLocation" text="Select" />
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin>
+                         </HBox>
+                         <Label text="Output Location:">
+                             <VBox.margin>
+                                 <Insets bottom="2.0" />
+                             </VBox.margin></Label>
+                         <HBox>
+                             <TextField fx:id="outputLocation" text="E:\ICBlackBoard">
+                                 <VBox.margin>
+                                     <Insets bottom="10.0" />
+                                 </VBox.margin></TextField>
+                             <Button fx:id="pickOutputLocation" text="Select" />
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin>
+                         </HBox>
+                         <HBox>
+                             <Label text="Rescan blackboard: ">
+                                 <HBox.margin>
+                                     <Insets right="2.0" />
+                                 </HBox.margin></Label>
+                             <CheckBox fx:id="rescanBlackboard" />
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin>
+                         </HBox>
+                         <HBox>
+                             <Label text="Replace existing files: ">
+                                 <HBox.margin>
+                                     <Insets right="2.0" />
+                                 </HBox.margin></Label>
+                             <CheckBox fx:id="replaceExistingFiles" />
+                             <VBox.margin>
+                                 <Insets bottom="10.0" />
+                             </VBox.margin>
+                         </HBox>
+                         <padding>
+                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                         </padding>
+                     </VBox>
+                 </content>
+             </ScrollPane>
+         </center>
+         <bottom>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="10.0" prefWidth="200.0" BorderPane.alignment="BOTTOM_RIGHT">
+               <children>
+                  <Button mnemonicParsing="false" text="Next" fx:id="nextButton">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+         </bottom></BorderPane>
+   </children>
+</AnchorPane>
