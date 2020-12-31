@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import me.eddie.blackboardDownloader.main.BlackboardDownloaderApplication;
 import me.eddie.blackboardDownloader.main.GUIApp;
 import me.eddie.blackboardDownloader.main.Main;

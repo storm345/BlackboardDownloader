@@ -20,17 +20,32 @@ public class Main {
 
     public static ExecutorService executorService;
 
+    private static volatile boolean terminating = false;
+    private final static Object termMon = new Object();
     public static void terminate(){
-        executorService.shutdown();
-        if(BlackboardDownloaderApplication.instance.blackboard != null){
-            BlackboardDownloaderApplication.instance.blackboard.getWebDriver().close();
+        synchronized (termMon){
+            if(terminating){
+                return;
+            }
+            terminating = true;
         }
-        System.exit(0);
+        System.out.println("Terminating...");
+
+        try {
+            executorService.shutdown();
+            if (BlackboardDownloaderApplication.instance.blackboard != null) {
+                BlackboardDownloaderApplication.instance.blackboard.getWebDriver().close();
+            }
+        }
+        finally {
+            System.exit(0);
+        }
     }
 
     public static void main(String[] args){
         System.out.println("Application start");
         executorService = Executors.newCachedThreadPool();
+        new BlackboardDownloaderApplication(); //Init singleton
         Runtime.getRuntime().addShutdownHook(new Thread(){
             @Override
             public void run(){
@@ -38,38 +53,7 @@ public class Main {
             }
         });
 
-        new BlackboardDownloaderApplication(); //Init singleton
-
         System.out.println("Launching gui...");
         GUIApp.doLaunch();
-
-        //Downloading stuff...
-        /*Set<Cookie> cookies = bb.getWebDriver().manage().getCookies();
-        DownloadFilter df = new DefaultDownloadFilter();
-
-        for(CourseAndContents courseAndContents : blackboardContent.getFoundContent()){
-            for(CourseContentEntry cce:courseAndContents.getContents()){
-                for(String link:cce.getLinksToContentOrChildren()) {
-                    if (link != null && link.contains("listContent")) {
-                        continue; //It's a folder...
-                    }
-                    //System.out.println("Resolving: " + link + " (" + cce.getEntryName() + ")");
-                    if (link == null) {
-                        continue;
-                    }
-                    HttpClient.Response<String> resolvedLink = HttpClient.resolveRedirectDestination(link, cookies);
-                    if(!df.shouldDownload(resolvedLink.getResponse())) {
-                        *//*System.out.println("SKIPPED:");
-                        System.out.println("Staus: " + resolvedLink.getHttpCode());
-                        System.out.println("Full link: " + resolvedLink.getResponse());*//*
-                    }
-                    try {
-                        Thread.sleep(2);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }*/
     }
 }

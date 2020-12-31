@@ -37,13 +37,13 @@ public class GUIApp extends Application {
         Parent root = FXMLLoader.load(Main.class.getClassLoader().getResource("layout/backgroundScene.fxml"));
         emptyScene = new Scene(root);
 
-        StartMenuController.show(primaryStage);
-
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
                 Main.terminate();
             }
         });
+
+        StartMenuController.show(primaryStage);
     }
 }
