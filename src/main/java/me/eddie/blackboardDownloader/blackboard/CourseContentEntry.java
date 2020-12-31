@@ -1,5 +1,10 @@
 package me.eddie.blackboardDownloader.blackboard;
 
+import me.eddie.blackboardDownloader.download.DownloadFilter;
+import me.eddie.blackboardDownloader.download.Downloadable;
+import me.eddie.blackboardDownloader.download.SuccessSkippedFailedList;
+import me.eddie.blackboardDownloader.gui.util.Popups;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +78,43 @@ public class CourseContentEntry {
         }
         res.addAll(attachments.stream().map(x -> x.getLink()).collect(Collectors.toList()));
         return res;
+    }
+
+    public List<Attachment> getAllContentOrChildrenAsAttachments(){
+        List<Attachment> res = new ArrayList<>();
+        if(mainLink != null){
+            res.add(new Attachment(mainLink, getEntryName()));
+        }
+        res.addAll(attachments);
+        return res;
+    }
+
+    public BlackboardResource<SuccessSkippedFailedList> getDownloadables(DownloadFilter filter){
+        return new BlackboardResource<>(new BlackboardResource.BlackboardResourceFetcher<SuccessSkippedFailedList>() {
+            @Override
+            public SuccessSkippedFailedList fetch(Blackboard blackboard) {
+                List<Downloadable> downloadables = new ArrayList<>();
+                List<Downloadable> skipped = new ArrayList<>();
+                List<Downloadable> failed = new ArrayList<>();
+                for(Attachment a:getAllContentOrChildrenAsAttachments()){
+                    String resolvedURL = blackboard.getResolvedURL(a.link).get(blackboard);
+                    if(resolvedURL == null){
+                        System.out.println("UNABLE TO RESOLVE URL: "+a.link+", did we lose connection?");
+                        //Popups.showSimplePopup("Error!", "Unable to resolve url for "+a.link+", lost connection?");
+                        failed.add(new Downloadable(a.name, a.link));
+                    }
+                    else if(filter.shouldDownload(resolvedURL)){
+                        downloadables.add(new Downloadable(a.name, resolvedURL));
+                    }
+                    else {
+                        if(!a.link.toLowerCase().contains("listcontent")) {
+                            System.out.println("Skipping " + a.name + " as not matched by filter");
+                            skipped.add(new Downloadable(a.name, resolvedURL));
+                        }
+                    }
+                }
+                return new SuccessSkippedFailedList(downloadables, skipped, failed);
+            }
+        });
     }
 }

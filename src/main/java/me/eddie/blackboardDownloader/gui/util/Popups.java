@@ -64,7 +64,9 @@ public class Popups {
                         GUIApp.formatStageIcon(s);
                         s.setTitle(title);
                         s.setScene(sceneFactory.createPopupScene(handle));
-                        s.show();
+                        if(!s.isShowing()) {
+                            s.show();
+                        }
                         stageRef.value = s;
                         onCreated.onDisplaying(handle, s);
                     }
@@ -78,7 +80,9 @@ public class Popups {
         return showPopup(title, new PopupContentFactory() {
             @Override
             public Scene createPopupScene(PopupHandle handle) {
-                Label label = new Label(message);
+                Label label = new Label();
+                label.setWrapText(true);
+                label.setText(message);
                 Button dismissButton = new Button("Ok");
                 VBox vBox = new VBox(label, dismissButton);
                 vBox.setAlignment(Pos.CENTER);

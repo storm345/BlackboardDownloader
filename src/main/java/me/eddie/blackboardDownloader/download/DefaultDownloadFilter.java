@@ -12,22 +12,18 @@ public class DefaultDownloadFilter implements DownloadFilter {
     private final String[] exlucdedExts = new String[]{"jsp", "html", "php", "asp", "aspx"};
     private final List<String> exlucdedExtsList = Arrays.asList(exlucdedExts);
 
-    private List<String> knownExts = new ArrayList<>();
-
     protected boolean shouldIncludeFileByExt(String ext, String link){
         if(exlucdedExtsList.contains(ext)){
             return false;
-        }
-
-        if(!knownExts.contains(ext)) {
-            System.out.println("Discovered allowed ext: "+ext+" ("+link+")");
-            knownExts.add(ext);
         }
         return true;
     }
 
     @Override
     public boolean shouldDownload(String fullyResolvedLink) {
+        if(fullyResolvedLink == null){
+            return false;
+        }
         if(fullyResolvedLink.toLowerCase().contains("cloud.panopto.eu")
             || fullyResolvedLink.toLowerCase().contains("href=/webapps/")
             || fullyResolvedLink.toLowerCase().contains("youtube.com")

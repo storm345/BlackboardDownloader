@@ -2,6 +2,7 @@ package me.eddie.blackboardDownloader.blackboard;
 
 import me.eddie.blackboardDownloader.gui.util.Popups;
 import me.eddie.blackboardDownloader.gui.util.ProgressBarPopup;
+import me.eddie.blackboardDownloader.http.HttpClient;
 import me.eddie.blackboardDownloader.util.DriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -42,11 +43,29 @@ public class Blackboard {
         return bbURL;
     }
 
+    public BlackboardResource<byte[]> fetchFile(String resolvedURL){
+        return new BlackboardResource<>(new RetryingBlackboardResourceFetcher<>(10, new RetryingBlackboardResourceFetcher.FailableResourceFetcher<byte[]>() {
+            @Override
+            public HttpClient.Response<byte[]> fetch(Blackboard blackboard) {
+                return HttpClient.executeGetOfBytes(resolvedURL, false, getWebDriver().manage().getCookies());
+            }
+        }));
+    }
+
+    public BlackboardResource<String> getResolvedURL(String url){
+        return new BlackboardResource<>(new RetryingBlackboardResourceFetcher<>(10, new RetryingBlackboardResourceFetcher.FailableResourceFetcher<String>() {
+            @Override
+            public HttpClient.Response<String> fetch(Blackboard blackboard) {
+                return HttpClient.resolveRedirectDestination(url, getWebDriver().manage().getCookies());
+            }
+        }));
+    }
+
     public BlackboardResource<ScannedBlackboardContent> getAllContent(ProgressBarPopup.ProgressBarHandle progressBarHandle){
         return new BlackboardResource<>(new BlackboardResource.BlackboardResourceFetcher<ScannedBlackboardContent>() {
             @Override
             public ScannedBlackboardContent fetch(Blackboard bb) {
-                progressBarHandle.postUpdate("Finding courses...", 0);
+                progressBarHandle.postUpdate("Finding courses...", "", 0);
                 List<Course> courses = bb.getCourses().get(bb);
 
                 List<CourseAndContents> coursesAndContents = new ArrayList<>();
@@ -55,12 +74,12 @@ public class Blackboard {
                         return null;
                     }
                     Course course = courses.get(i);
-                    progressBarHandle.postUpdate("Scanning "+course.getName()+" ("+(i+1)+"/"+courses.size()+")", (i+1)/((double)courses.size()));
+                    progressBarHandle.postUpdate("Scanning "+course.getName()+" ("+(i+1)+"/"+courses.size()+")", "", (i+1)/((double)courses.size()));
                     List<CourseContentEntry> contentEntries = course.getCourseContent().get(bb);
                     CourseAndContents courseAndContents = new CourseAndContents(course, contentEntries);
                     coursesAndContents.add(courseAndContents);
                 }
-                progressBarHandle.postUpdate("Done!", 1);
+                progressBarHandle.postUpdate("Done!", "", 1);
 
                 return new ScannedBlackboardContent(coursesAndContents);
             }

@@ -11,6 +11,8 @@ public class ProgressBarController {
     private Label operationStatus;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private Label operationStatus2;
 
     public void setOperationDesc(String desc){
         this.operationDesc.setText(desc);
@@ -20,12 +22,16 @@ public class ProgressBarController {
         this.operationStatus.setText(status);
     }
 
+    public void setOperationStatus2(String status){
+        this.operationStatus2.setText(status);
+    }
+
     public void setProgress(double value){
         this.progressBar.setProgress(value); //Between 0 and 1
     }
 
     @FXML
     public void initialize(){
-        System.out.println("Progress bar controller initialized!");
+
     }
 }

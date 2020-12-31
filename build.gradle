@@ -35,11 +35,6 @@ dependencies {
     compile group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.30.2'
 }
 
-jar {
-    // Keep jar clean:
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
-}
-
 shadowJar {
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
 

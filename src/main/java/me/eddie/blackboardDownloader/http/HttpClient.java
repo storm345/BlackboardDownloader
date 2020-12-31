@@ -309,6 +309,8 @@ public class HttpClient {
                 cookieStr.append(c.getName()+"="+c.getValue());
             }
             connection.addRequestProperty("Cookie",cookieStr.toString());
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+            connection.setReadTimeout(10000); //10 sec
             connection.setInstanceFollowRedirects(true);
 
             connection.setUseCaches (false);
