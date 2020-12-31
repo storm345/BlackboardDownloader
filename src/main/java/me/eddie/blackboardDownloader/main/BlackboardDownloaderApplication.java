@@ -79,7 +79,9 @@ public class BlackboardDownloaderApplication {
         try {
             this.outputLocation = new File(outputLocation);
             if(!this.outputLocation.mkdirs()){
-                throw new Exception("Failed to make output directory!");
+                if(!this.outputLocation.exists() || !this.outputLocation.isDirectory()) {
+                    throw new Exception("Failed to make output directory!");
+                }
             }
         }
         catch (Exception e){
