@@ -7,6 +7,7 @@ Designed for and tested on bb.imperial.ac.uk, since it is inspecting the web con
 
 # Download:
 https://github.com/storm345/BlackboardDownloader/tree/master/release  
+Note that the executable is unsigned and may produce a warning when trying to download/run, if you do not trust it then you re-compile the project from source using gradle.
 Requires:
 - Java 8 or newer
 - ChromeDriver https://chromedriver.chromium.org/downloads
