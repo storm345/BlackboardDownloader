@@ -34,7 +34,8 @@ public class GUIApp extends Application {
         GUIApp.stage = primaryStage;
         formatStageIcon(primaryStage);
         primaryStage.setTitle("Blackboard Downloader");
-        emptyScene = new Scene(new AnchorPane(), 400,500);
+        Parent root = FXMLLoader.load(Main.class.getClassLoader().getResource("layout/backgroundScene.fxml"));
+        emptyScene = new Scene(root);
 
         StartMenuController.show(primaryStage);
 

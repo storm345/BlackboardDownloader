@@ -18,10 +18,10 @@ public class Downloadable {
     public String getFileName(){
         String fName = getResourceName();
         Matcher m1 = fileExtPattern.matcher(fName);
-        if(!m1.matches()){
-            Matcher m = fileExtPattern.matcher(getResolvedURL());
-            if(m.matches()){
-                String ext = m.group(1);
+        Matcher m = fileExtPattern.matcher(getResolvedURL());
+        if(m.matches()){
+            String ext = m.group(1);
+            if(!m1.matches() || !m1.group(1).equalsIgnoreCase(ext)) {
                 fName += "." + ext;
             }
         }

@@ -244,7 +244,7 @@ public class BlackboardDownloaderApplication {
             }
 
             progressBar.postUpdate("Done!", "", tracker.skippedFailedSummary(), 1);
-            Popups.showSimplePopup("Download finished!", "Check failed.txt and skipped.txt for summaries of skipped and failed entries");
+            Popups.showSimplePopup("Download finished!", "Done! Check failed.txt and skipped.txt for summaries of skipped and failed entries");
         } catch (Exception e){
             e.printStackTrace();
         }
