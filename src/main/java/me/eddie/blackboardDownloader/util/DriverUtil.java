@@ -36,7 +36,10 @@ public class DriverUtil {
     }
 
     public static void waitForElementToExist(SearchContext webDriver, By by){
-        while (webDriver.findElements(by).size() < 1){
+        long startTime = System.currentTimeMillis();
+        final long TIMEOUT = 40000;
+        while (webDriver.findElements(by).size() < 1
+            && System.currentTimeMillis() - startTime <= TIMEOUT){
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {

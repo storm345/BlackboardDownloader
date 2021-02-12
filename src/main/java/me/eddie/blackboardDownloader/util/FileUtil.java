@@ -5,7 +5,7 @@ public class FileUtil {
             * list of characters not allowed in filenames
      */
     public static final char INVALID_CHARS[] = { '\\', '/', ':', '*', '?', '"', '<', '>', '|', '[', ']', '\'', ';',
-            '=', ',', '\'' };
+            '=', ',', '\'', '\n', '\r' };
     private static final char SANITIZED_CHAR = '_';
 
     /**
