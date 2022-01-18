@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class Downloadable {
     private String resourceName;
     private String resolvedURL;
-    private final Pattern fileExtPattern = Pattern.compile(".+\\.([^\\.\\?\\/]+).?");
+    private final Pattern fileExtPattern = Pattern.compile(".+\\.([^\\.\\?&\\/]+).?");
 
     public Downloadable(String resourceName, String resolvedURL) {
         this.resourceName = resourceName;
